@@ -28,3 +28,5 @@ Puoi avviarlo in locale scrivendo da terminale:
 ```bash
 mlflow server --host 127.0.0.1 --port 8080 
   ````
+
+Nel file `1-esercizio-ml.ipynb` sono presenti delle porzioni di codice avvolte da `"""`. Eliminarle per loggare i modelli su MLflow.
