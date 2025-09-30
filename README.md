@@ -8,10 +8,10 @@ Questo documento spiega come inizializzare l’ambiente Conda del progetto e com
 
 Assicurati di avere [Miniconda](https://docs.conda.io/en/latest/miniconda.html) o [Anaconda](https://www.anaconda.com/download) installato.
 
-Crea l’ambiente da env.yaml:
+Da terminale, dopo essere entrato nella cartella principale, crea l’ambiente da env.yaml:
 
 ```bash
-conda env create -f env.yaml
+conda env create --file env.yaml
 ```
 
 ## 2. Attivazione dell’ambiente

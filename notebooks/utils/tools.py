@@ -11,10 +11,10 @@ import numpy as np
 
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import BaseEstimator
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler, FunctionTransformer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import (
     accuracy_score,
@@ -43,7 +43,7 @@ from pathlib import Path
 @dataclass
 class DataProfiler:
     """
-    Lightweight wrapper around ydata-profiling using a dataclass.
+    Lightweight wrapper around ydata-profiling to generate  a report.
 
     Usage:
         profiler = DataProfiler.from_csv("/path/to/data.csv", sep=",", title="My Report")
@@ -229,16 +229,30 @@ class FraudPreprocessor:
 @dataclass
 class ModelTrain:
     """
-    End-to-end trainer and evaluator for an sklearn Pipeline supporting Logistic Regression,
-    Random Forest, and Decision Tree classifiers. It builds a preprocessing + estimator pipeline,
-    optionally performs RandomizedSearchCV, tunes the decision threshold by maximizing F-beta
-    on a validation grid, and returns a standardized evaluation report (accuracy, per-class
-    precision/recall/f1, AP for class 1, Brier score, confusion matrix, predicted probabilities).
-    It also provides utilities to plot Precision–Recall curves, visualize a fitted Decision Tree,
-    compute model-based feature importance, permutation importance, and SHAP-based global and local
-    explanations (waterfall for selected instances, beeswarm, and global importance bar plot).
-    The class accepts raw DataFrames/ndarrays and can create an internal ColumnTransformer when a
-    preprocessor is not provided. Random states are exposed for reproducibility across experiments.
+    End-to-end training and evaluation for sklearn pipelines.
+
+    What it does:
+      - Builds a preprocessing + estimator pipeline (Logistic Regression, Random Forest, Decision Tree).
+      - Optionally performs RandomizedSearchCV for hyperparameter tuning.
+      - Tunes the decision threshold by maximizing F-beta on a validation grid.
+      - Generates a standardized evaluation report:
+          * Accuracy
+          * Per-class precision/recall/F1
+          * Average Precision (class 1)
+          * Brier score
+          * Confusion matrix
+          * Predicted probabilities
+      - Provides visualizations:
+          * Precision–Recall curve
+          * Decision Tree plot (if applicable)
+          * Model-based feature importance
+          * Permutation importance
+          * SHAP-based explanations (waterfall, beeswarm, global bar plot)
+
+    Customize:
+      - Pass your own ColumnTransformer as preprocessor or let the class build one internally.
+      - Choose the estimator via `model_name`: "logreg", "rf", or "dt".
+      - Control randomness with `random_state` for reproducibility.
     """
 
     X_train: Union[np.ndarray, pd.DataFrame]
